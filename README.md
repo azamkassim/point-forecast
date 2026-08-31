@@ -5,7 +5,7 @@
 <h1 align="center">Point Forecast</h1>
 
 <p align="center">
-  <strong>U.S. National Weather Service point forecasts</strong> on Android — clear, private, and fully open source.
+  <strong>NWS point forecasts with private global fallback</strong> on Android — clear, private, and fully open source.
 </p>
 
 <p align="center">
@@ -45,7 +45,7 @@
 
 ## Features
 
-- **Current conditions** and multi-day NWS forecast (pull-to-refresh)
+- **Current conditions** and multi-day forecast (NWS in the U.S.; Open-Meteo elsewhere)
 - **Hourly** tables you can reorder: temperature, precip, wind, tides / water level, air quality, visibility, pressure, UV, space weather
 - **Alerts** for watches, warnings, and advisories
 - **Map** location pick (OpenStreetMap / osmdroid — no Google Play Services) plus city search
@@ -118,7 +118,8 @@ Signed / F-Droid releases: see [RELEASE.md](RELEASE.md) and [docs/REPRODUCIBLE_B
 | Air quality, UV, pressure | [Open-Meteo](https://open-meteo.com/) (optional) |
 | Search / map | Nominatim + OpenStreetMap tiles |
 
-Coverage for core forecast is **U.S. NWS points**.
+Core forecasts use **U.S. NWS points** where available and **Open-Meteo** as a
+worldwide fallback outside NWS coverage.
 
 ## Privacy
 

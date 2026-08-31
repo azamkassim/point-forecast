@@ -7,6 +7,15 @@ and this project aims to follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Worldwide city search and Open-Meteo forecast fallback outside U.S. NWS coverage
+- Explicit forecast-source label on the main screen
+
+### Changed
+
+- NWS remains the primary provider for U.S. points; only confirmed coverage errors use the global fallback
+
 ## [1.1.10] — 2026-08-30
 
 ### Added

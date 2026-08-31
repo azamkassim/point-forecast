@@ -106,8 +106,8 @@ class NwsApi(
     }
 
     /**
-     * City / town search only — filters out streets, businesses, and other non-settlements.
-     * Handles "City, ST" queries (e.g. "de kalb, IL" → DeKalb IL).
+     * Worldwide city / town search — filters out streets, businesses, and other non-settlements.
+     * Also handles U.S. "City, ST" queries (e.g. "de kalb, IL" → DeKalb IL).
      */
     suspend fun geocode(query: String): List<GeocodeResult> = withContext(Dispatchers.IO) {
         val trimmed = query.trim()
@@ -197,7 +197,7 @@ class NwsApi(
         val q = java.net.URLEncoder.encode(query, Charsets.UTF_8.name())
         val url =
             "https://nominatim.openstreetmap.org/search?q=$q&format=json&limit=12" +
-                "&addressdetails=1&countrycodes=us"
+                "&addressdetails=1"
         return runCatching { JSONArray(getString(url)) }.getOrDefault(JSONArray())
     }
 
@@ -287,7 +287,7 @@ class NwsApi(
     }
 
     /**
-     * Build "Columbus OH" / "DeKalb IL" labels.
+     * Build compact regional labels such as "Columbus OH" or "Kuala Lumpur Malaysia".
      * Prefer city/town/village from the address block — never road/house names.
      */
     private fun formatPlaceName(
@@ -331,19 +331,25 @@ class NwsApi(
         val stateRaw = addr("state", "state_code")
             ?: Regex("""\b([A-Z]{2})\b""").find(displayName)?.groupValues?.getOrNull(1)
         val state = stateRaw?.let { shortState(it) }
+        val countryCode = addr("country_code")?.uppercase(Locale.US)
+        val region = when {
+            countryCode.isNullOrBlank() || countryCode == "US" -> state
+            !stateRaw.isNullOrBlank() && !locality.equals(stateRaw, ignoreCase = true) -> stateRaw
+            else -> countryCode
+        }
 
         return when {
-            !locality.isNullOrBlank() && !state.isNullOrBlank() -> {
+            !locality.isNullOrBlank() && !region.isNullOrBlank() -> {
                 if (locality.equals(stateRaw, ignoreCase = true) ||
-                    locality.equals(state, ignoreCase = true)
+                    locality.equals(region, ignoreCase = true)
                 ) {
-                    state
+                    region
                 } else {
-                    "$locality $state"
+                    "$locality $region"
                 }
             }
             !locality.isNullOrBlank() -> locality
-            !state.isNullOrBlank() -> state
+            !region.isNullOrBlank() -> region
             else -> "Selected location"
         }
     }
@@ -698,6 +704,7 @@ class NwsApi(
             hazards = hazards,
             tideInfo = tideInfo,
             timeZoneId = locationTz.id,
+            forecastSource = "U.S. National Weather Service",
         )
     }
 

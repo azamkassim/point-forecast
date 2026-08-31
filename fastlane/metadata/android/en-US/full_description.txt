@@ -1,9 +1,10 @@
-Point Forecast is an Android client for U.S. National Weather Service point
-forecasts. It is not affiliated with NOAA or NWS.
+Point Forecast is an Android weather client using U.S. National Weather Service
+point forecasts where available and Open-Meteo as a worldwide fallback. It is
+not affiliated with NOAA, NWS, or Open-Meteo.
 
 Features:
 
-* Current conditions and multi-day NWS forecast
+* Current conditions and multi-day forecast worldwide
 * Hourly tables (temperature, precipitation, wind, tides/water level,
   air quality, visibility, pressure, UV, space weather)
 * Watches, warnings, and advisories
