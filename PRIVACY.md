@@ -21,7 +21,8 @@ Preferences and the last weather snapshot are stored **only on your device** (An
 - settings (units, tabs, map radius, etc.)  
 - cached forecast JSON for offline display  
 
-Uninstalling the app removes this data (subject to Android backup if you enable system backups).
+Uninstalling the app removes this data. App data is excluded from Android backup and
+device-to-device transfer so saved locations are not copied outside the device by the app.
 
 ## Network requests
 
