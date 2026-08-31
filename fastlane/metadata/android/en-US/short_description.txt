@@ -1,1 +1,1 @@
-NWS point forecasts with maps, tides, and weather hazards
+Private NWS forecasts with worldwide Open-Meteo fallback

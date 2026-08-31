@@ -55,7 +55,7 @@ fun SearchScreen(
             .padding(16.dp),
     ) {
         Text(
-            text = "Search for a U.S. city or place. Selecting a result adds it to your saved cities and loads the forecast.",
+            text = "Search for a city or place worldwide. U.S. locations use NWS; other locations use Open-Meteo.",
             color = OnSurfaceMuted,
             fontSize = 13.sp,
             modifier = Modifier.padding(bottom = 12.dp),
@@ -111,7 +111,7 @@ private fun SearchField(
         value = query,
         onValueChange = onQueryChange,
         modifier = Modifier.fillMaxWidth(),
-        label = { Text("City, state, or place") },
+        label = { Text("City, region, or country") },
         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
         singleLine = true,
     )

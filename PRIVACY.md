@@ -38,7 +38,7 @@ When you use the app (or enable auto-refresh), it contacts **public data service
 | River/lake stage | `waterservices.usgs.gov` |
 | Tropical storms | `www.nhc.noaa.gov` |
 | Tornado reports | `www.spc.noaa.gov` |
-| Optional hourly extras | `api.open-meteo.com`, `air-quality-api.open-meteo.com` |
+| Global forecasts and hourly extras | `api.open-meteo.com`, `air-quality-api.open-meteo.com` |
 | Map tiles | `tile.openstreetmap.org` (OpenStreetMap) |
 | Geocoding | `nominatim.openstreetmap.org` |
 

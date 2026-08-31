@@ -16,6 +16,7 @@ class WeatherRepository(
         tideService = TideService(context.applicationContext),
     ),
     private val prefs: PreferencesRepository = PreferencesRepository(context),
+    private val globalForecast: OpenMeteoService = OpenMeteoService(),
 ) {
     private val _snapshot = MutableStateFlow<WeatherSnapshot?>(null)
     val snapshot: StateFlow<WeatherSnapshot?> = _snapshot.asStateFlow()
@@ -94,14 +95,24 @@ class WeatherRepository(
                     prefs.isHourlyTabEnabled("Pressure") ||
                     prefs.isHourlyTabEnabled("UvIndex")
             val includeAirQuality = prefs.isHourlyTabEnabled("AirQuality")
-            val snap = api.fetchWeather(
-                latitude = latitude,
-                longitude = longitude,
-                preferredName = name,
-                includeTides = includeTides,
-                includeOpenMeteoWeather = includeOpenMeteoWeather,
-                includeAirQuality = includeAirQuality,
-            )
+            val snap = try {
+                api.fetchWeather(
+                    latitude = latitude,
+                    longitude = longitude,
+                    preferredName = name,
+                    includeTides = includeTides,
+                    includeOpenMeteoWeather = includeOpenMeteoWeather,
+                    includeAirQuality = includeAirQuality,
+                )
+            } catch (nwsError: Exception) {
+                if (!isOutOfCoverageError(nwsError)) throw nwsError
+                globalForecast.fetchForecast(
+                    latitude = latitude,
+                    longitude = longitude,
+                    preferredName = name,
+                    includeAirQuality = includeAirQuality,
+                )
+            }
             _snapshot.value = snap
             prefs.saveSnapshot(snap)
             WeatherWidgetUpdater.updateAll(context, snap)
@@ -134,8 +145,7 @@ class WeatherRepository(
         val msg = e.message.orEmpty()
         return when {
             msg.contains("HTTP 400") || msg.contains("HTTP 404") ->
-                "This location is outside the U.S. National Weather Service coverage area. " +
-                    "Choose a place in the United States or territories for a forecast."
+                "No forecast is available for this location."
             msg.contains("HTTP 403") ->
                 "The weather service temporarily refused the request. Try again in a moment."
             msg.contains("HTTP 5") ->

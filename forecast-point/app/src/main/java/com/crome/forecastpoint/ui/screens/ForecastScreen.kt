@@ -186,7 +186,7 @@ private fun LocationHeader(
                 fontWeight = FontWeight.SemiBold,
             )
             Text(
-                text = relativeUpdateLabel(snapshot),
+                text = "${relativeUpdateLabel(snapshot)} · ${snapshot.forecastSource}",
                 color = OnSurfaceMuted,
                 fontSize = 13.sp,
             )
@@ -230,8 +230,13 @@ private fun CurrentConditionsCard(
         Column(Modifier.padding(16.dp)) {
             Text("Current Conditions", color = Color.White, fontWeight = FontWeight.SemiBold)
             current.stationName?.let {
+                val sourceLabel = if (snapshot.forecastSource == "Open-Meteo") {
+                    "Source"
+                } else {
+                    "Observed at"
+                }
                 Text(
-                    "Observed at: $it",
+                    "$sourceLabel: $it",
                     color = OnSurfaceMuted,
                     fontSize = 13.sp,
                     modifier = Modifier.padding(top = 2.dp),

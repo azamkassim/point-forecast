@@ -139,6 +139,8 @@ data class WeatherSnapshot(
     val tideInfo: TideInfo? = null,
     /** IANA or GMT offset id for the forecast point (from NWS when available). */
     val timeZoneId: String? = null,
+    /** Human-readable forecast provider used for this snapshot. */
+    val forecastSource: String = "NWS",
 )
 
 data class GeocodeResult(
