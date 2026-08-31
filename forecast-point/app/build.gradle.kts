@@ -76,5 +76,7 @@ dependencies {
     // OpenStreetMap without Google Play Services (works on Calyx)
     implementation("org.osmdroid:osmdroid-android:6.1.18")
 
+    testImplementation("junit:junit:4.13.2")
+
     debugImplementation("androidx.compose.ui:ui-tooling")
 }

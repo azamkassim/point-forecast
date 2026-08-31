@@ -51,9 +51,6 @@ class WeatherWidgetProvider : AppWidgetProvider() {
         WeatherWidgetUpdater.updateAll(context)
     }
 
-    companion object {
-        const val ACTION_REFRESH = "com.crome.forecastpoint.ACTION_WIDGET_REFRESH"
-    }
 }
 
 internal fun widgetAppScope(context: Context) =
